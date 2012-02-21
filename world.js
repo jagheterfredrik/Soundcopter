@@ -25,7 +25,11 @@ function World() {
 	spectrum.init(function(s) {
 		var data = spectrum.normalize(s, 100);
 //		console.log(data);
-		t.lastDB = 2*data.spectruml[4];
+		var currentValue = t.lastDB;
+		var nextValue = 2*data.spectruml[4];
+		var down = nextValue < currentValue;
+		var change = Math.min(Math.abs(nextValue - currentValue),25);
+		t.lastDB = currentValue + (down?-change:change);
 	}, bands);
 }
 
@@ -55,7 +59,7 @@ World.prototype.getUpperHeight = function(x) {
 World.prototype.fetchValues = function() {
 //	console.log('called fetchValues');
 	var newUpper = new box.Box(this.lastDB);//Math.floor(150*Math.random()));
-	var newLower = new box.Box(this.lastDB);//Math.floor(150*Math.random()));
+	var newLower = new box.Box(constants.HEIGHT - this.lastDB - 200);//Math.floor(150*Math.random()));
 	delete this.upper.shift();
 	delete this.lower.shift();
 	this.upper.push(newUpper);
