@@ -9,6 +9,8 @@ function Game(context) {
 	this.copter = new copter.Copter();
 	this.world = new world.World();
 	
+	this.points = 0;
+	
 	this.lost = false;
 }
 
@@ -21,11 +23,14 @@ Game.prototype.update = function() {
 	if(this.lost) return;
 	this.world.update();
 	this.copter.update();
+	
+	++this.points;
+	
 	if(this.world.getUpperHeight(180+48) >= (constants.HEIGHT-this.copter.getUpperHeight()) || (this.world.getLowerHeight(180+48) >= this.copter.getHeight())) {
 		console.log("world height at crash "+(this.world.getUpperHeight(180+48)));
 		console.log("copter height at crash "+(constants.HEIGHT-this.copter.getUpperHeight()));
 		this.lost = true;
-		alert("CRASHED");
+		alert("Game over, you scored "+this.points+" points!");
 	}
 }
 
@@ -34,4 +39,7 @@ Game.prototype.render = function() {
 	this.context.clearRect(0, 0, constants.WIDTH, constants.HEIGHT);
 	this.world.render(this.context);
 	this.copter.render(this.context);
+	
+	document.getElementById("points").innerHTML = this.points;
+	
 }

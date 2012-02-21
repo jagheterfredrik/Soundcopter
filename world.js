@@ -1,7 +1,13 @@
 exports.World = World
 
+var sp = getSpotifyApi(1);
+
 var constants = sp.require("constants");
 var box = sp.require("box");
+
+var spectrum = sp.require('spectrum');
+
+var bands = spectrum.BAND10;
 
 function World() {
 	this.upper = new Array();
@@ -16,10 +22,11 @@ function World() {
 	console.log("adding event handler");
 	
 	var t = this;
-	sp.trackPlayer.addEventListener("audioSpectrumChanged", function(s) {
-//		console.log(s);
-		t.lastDB = 5*s.data.spectruml[68];
-	});
+	spectrum.init(function(s) {
+		var data = spectrum.normalize(s, 100);
+//		console.log(data);
+		t.lastDB = 2*data.spectruml[4];
+	}, bands);
 }
 
 World.prototype.update = function() {
@@ -47,8 +54,8 @@ World.prototype.getUpperHeight = function(x) {
 
 World.prototype.fetchValues = function() {
 //	console.log('called fetchValues');
-	var newUpper = new box.Box(Math.floor(150*Math.random()));
-	var newLower = new box.Box(Math.floor(150*Math.random()));
+	var newUpper = new box.Box(this.lastDB);//Math.floor(150*Math.random()));
+	var newLower = new box.Box(this.lastDB);//Math.floor(150*Math.random()));
 	delete this.upper.shift();
 	delete this.lower.shift();
 	this.upper.push(newUpper);

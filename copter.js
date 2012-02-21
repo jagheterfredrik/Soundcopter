@@ -40,11 +40,11 @@ Copter.prototype.getHeight = function() {
 }
 
 Copter.prototype.getUpperHeight = function() {
-	return constants.HEIGHT - this.y;
+	return constants.HEIGHT - this.y - 12;
 }
 
 Copter.prototype.update = function() {
-	this.y += this.direction*4;
+	this.y += this.direction * 4;
 }
 
 Copter.prototype.render = function(context) {
