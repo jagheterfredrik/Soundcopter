@@ -33,20 +33,21 @@ World.prototype.update = function() {
 World.prototype.render = function(context) {
 	var dx = constants.WIDTH/constants.STEPS;
 	for(var i = 0; i<constants.STEPS; ++i) {
-		context.rect(dx*i,0,dx,this.upper[i].height);
-		context.rect(dx*i,constants.HEIGHT-this.upper[i].height,dx,this.upper[i].height);
-		context.fillStyle = "#000000";
+		context.fillRect(dx*i,0,dx,this.upper[i].height);
+		context.fillRect(dx*i,constants.HEIGHT-this.upper[i].height,dx,this.upper[i].height);
+	//	context.fillStyle = "#000000";
 	}
-	context.fill();
 }
 
 World.prototype.fetchValues = function() {
-	console.log('called fetchValues');
+//	console.log('called fetchValues');
 	var newUpper = new box.Box(Math.floor(150*Math.random()));
 	var newLower = new box.Box(Math.floor(150*Math.random()));
 	this.upper.shift();
 	this.lower.shift();
 	this.upper.push(newUpper);
 	this.lower.push(newLower);
+	
+//	console.log("lower len: "+this.lower.length);
 }
 

@@ -12,7 +12,7 @@ function Game(context) {
 
 Game.prototype.run = function() {
 	var t = this;
-	this.timer = window.setInterval(function() { t.update(); t.render(); }, 10);
+	this.timer = window.setInterval(function() { t.update(); t.render(); }, 20);
 }
 
 Game.prototype.update = function() {
@@ -22,7 +22,7 @@ Game.prototype.update = function() {
 
 Game.prototype.render = function() {
 	this.context.clearRect(0, 0, constants.WIDTH, constants.HEIGHT);
-	this.context.fill();
+//	this.context.fill();
 	this.world.render(this.context);
 	this.copter.render(this.context);
 }
