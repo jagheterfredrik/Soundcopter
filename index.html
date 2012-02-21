@@ -8,7 +8,12 @@
 		function play_game(){
 			var sp = getSpotifyApi(1);
 			var soundcopter = sp.require("soundcopter");
-			soundcopter.init();
+			soundcopter.init(1000);
+		}
+		function play_again(){
+			var sp = getSpotifyApi(1);
+			var soundcopter = sp.require("soundcopter");
+			soundcopter.init(1000);	
 		}
 	</script>
 </head>
@@ -16,12 +21,12 @@
 	<center>
 	Your score: <div id="points"></div>
 	<br/>
-	<canvas id="canvas" width="2000px" height="500px"></canvas>
+	<canvas id="canvas" width="1000px" height="500px"></canvas>
 	
 	:: SoundCopter ::<br>
 	
 	<br>
-	<input type="button" name="image" width="90" height="60" onclick="play_game()" value="Play!">
+	<div id ="das_button"><input type="button" onclick="play_again()" value="Play!"> </div>
 	</center>
 </body>
 </html>

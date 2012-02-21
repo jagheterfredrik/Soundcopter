@@ -3,9 +3,11 @@ sp = getSpotifyApi(1);
 exports.init = init;
 
 var game = sp.require("game");
+var constants = sp.require("constants");
 
-function init() {
-    console.log("Soundcopter loaded!");
+function init(width) {
+    console.log("Soundcopter loading!");
+    constants.WIDTH=width
 	var canvas = document.getElementById("canvas");
 	var context = canvas.getContext("2d");
 	console.log(context);
