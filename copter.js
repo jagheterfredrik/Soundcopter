@@ -21,12 +21,10 @@ function Copter() {
 	this.img.src = "gfx/copter.png";
 	
 	document.getElementById("canvas").addEventListener("mousedown", function() {
-		console.log("MOUSEDOWN!");
 		t.direction = -1;
 	}, false);
 	
 	document.getElementById("canvas").addEventListener("mouseup", function() {
-		console.log("MOUSEDOWN!");
 		t.direction = 1;
 	}, false);
 	

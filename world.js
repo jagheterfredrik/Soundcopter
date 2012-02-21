@@ -18,11 +18,7 @@ function World() {
 	var t = this;
 	sp.trackPlayer.addEventListener("audioSpectrumChanged", function(s) {
 //		console.log(s);
-		var newDB = s.data.spectruml[48];
-		if (Math.abs(t.lastDB - newDB) > 17) {
-			console.log("BEAT!");
-		}
-		t.lastDB = newDB;
+		t.lastDB = 5*s.data.spectruml[68];
 	});
 }
 
@@ -40,13 +36,14 @@ World.prototype.render = function(context) {
 }
 
 World.prototype.getLowerHeight = function(x) {
-	return this.lower[Math.floor(x/constants.STEPS)].height;
+	var i = Math.floor(x/constants.WIDTH*constants.STEPS);
+	return this.lower[i].height;
 }
 
 World.prototype.fetchValues = function() {
 //	console.log('called fetchValues');
 	var newUpper = new box.Box(Math.floor(150*Math.random()));
-	var newLower = new box.Box(50);//Math.floor(150*Math.random()));
+	var newLower = new box.Box(Math.floor(150*Math.random()));
 	delete this.upper.shift();
 	delete this.lower.shift();
 	this.upper.push(newUpper);
