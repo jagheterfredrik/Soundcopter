@@ -37,14 +37,14 @@ Copter.prototype.moveTo = function(x, y) {
 	this.new_y = y;
 }
 
+Copter.prototype.getHeight = function() {
+	return constants.HEIGHT - this.y - 56;
+}
+
 Copter.prototype.update = function() {
 	this.y += this.direction*4;
-//	this.x += 10;
-//	this.x %= constants.WIDTH;
-//	this.y = 195+45*Math.sin(this.x/50);
 }
 
 Copter.prototype.render = function(context) {
-//	console.log("render called");
 	context.drawImage(this.img, this.x, this.y, 64, 64);
 }

@@ -8,6 +8,8 @@ function Game(context) {
 	this.context = context;
 	this.copter = new copter.Copter();
 	this.world = new world.World();
+	
+	this.lost = false;
 }
 
 Game.prototype.run = function() {
@@ -16,13 +18,19 @@ Game.prototype.run = function() {
 }
 
 Game.prototype.update = function() {
+	if(this.lost) return;
 	this.world.update();
 	this.copter.update();
+	
+	if(this.world.getLowerHeight(180+48) >= this.copter.getHeight()) {
+		this.lost = true;
+		alert("CRASHED");
+	}
 }
 
 Game.prototype.render = function() {
+	if(this.lost) return;
 	this.context.clearRect(0, 0, constants.WIDTH, constants.HEIGHT);
-//	this.context.fill();
 	this.world.render(this.context);
 	this.copter.render(this.context);
 }
