@@ -1,8 +1,8 @@
 
 exports.World = World
 
-constants = sp.require("constants");
-box = sp.require("box");
+var constants = sp.require("constants");
+var box = sp.require("box");
 
 function World() {
 	this.upper = new Array();

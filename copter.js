@@ -1,6 +1,6 @@
 exports.Copter = Copter;
 
-constants = sp.require("constants");
+var constants = sp.require("constants");
 
 function Copter() {
 	this.x = 50;
