@@ -21,6 +21,9 @@ Game.prototype.run = function() {
 
 Game.prototype.update = function() {
 	if(this.lost) return;
+	
+	this.world.setDifficulty(1+this.points/800)
+	
 	this.world.update();
 	this.copter.update();
 	

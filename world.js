@@ -18,6 +18,11 @@ function World() {
 	}
 	
 	this.lastDB = 0;
+	this.upperDB = 0;
+	
+	this.offset = 0;
+	
+	this.amplitude = 1;
 	
 	console.log("adding event handler");
 	
@@ -26,7 +31,7 @@ function World() {
 		var data = spectrum.normalize(s, 100);
 //		console.log(data);
 		var currentValue = t.lastDB;
-		var nextValue = 2*data.spectruml[4];
+		var nextValue = 200+2000*data.wavel[4];
 		var down = nextValue < currentValue;
 		var change = Math.min(Math.abs(nextValue - currentValue),25);
 		t.lastDB = currentValue + (down?-change:change);
@@ -37,9 +42,20 @@ World.prototype.update = function() {
 	this.fetchValues();
 }
 
+World.prototype.setDifficulty = function(difficulty) {
+	this.difficulty = difficulty;
+}
+
 World.prototype.render = function(context) {
 	var dx = constants.WIDTH/constants.STEPS;
+	var frequency = Math.PI/constants.STEPS;
+	++this.offset;
 	for(var i = 0; i<constants.STEPS; ++i) {
+		var j = i+this.offset%constants.STEPS*2;
+		red   = Math.floor(Math.sin(frequency*j + 0) * 127 + 128);
+		green = Math.floor(Math.sin(frequency*j + 2) * 127 + 128);
+		blue  = Math.floor(Math.sin(frequency*j + 4) * 127 + 128);
+		context.fillStyle = "rgb("+red+","+green+","+blue+")";
 		context.fillRect(dx*i,0,dx,this.upper[i].height);
 		context.fillRect(dx*i,constants.HEIGHT-this.lower[i].height,dx,this.lower[i].height);
 	//	context.fillStyle = "#000000";
