@@ -1,5 +1,6 @@
 exports.Game = Game;
 
+var constants = sp.require("constants");
 var copter = sp.require("copter");
 var world = sp.require("world");
 

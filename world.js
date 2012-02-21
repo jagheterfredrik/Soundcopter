@@ -1,4 +1,3 @@
-
 exports.World = World
 
 var constants = sp.require("constants");
@@ -11,6 +10,20 @@ function World() {
 		this.upper[i] = new box.Box(5);
 		this.lower[i] = new box.Box(5);
 	}
+	
+	this.lastDB = 0;
+	
+	console.log("adding event handler");
+	
+	var t = this;
+	sp.trackPlayer.addEventListener("audioSpectrumChanged", function(s) {
+//		console.log(s);
+		var newDB = s.data.spectruml[48];
+		if (Math.abs(t.lastDB - newDB) > 17) {
+			console.log("BEAT!");
+		}
+		t.lastDB = newDB;
+	});
 }
 
 World.prototype.update = function() {

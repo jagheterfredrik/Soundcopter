@@ -3,6 +3,10 @@
 	"AppIcon": {
 		"36x18": "icon.png"
 	},
+	"ApiPermissions" : {
+		"core" : ["public"],
+		"trackPlayer" : ["public"]
+	},
 	"AppName": {
 		"en": "Soundcopter"
 	},

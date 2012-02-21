@@ -27,7 +27,7 @@ Copter.prototype.moveTo = function(x, y) {
 Copter.prototype.update = function() {
 	this.x += 10;
 	this.x %= constants.WIDTH;
-	this.y = 45+85*Math.sin(this.x/50);
+	this.y = 125+85*Math.sin(this.x/50);
 }
 
 Copter.prototype.render = function(context) {
