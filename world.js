@@ -9,6 +9,14 @@ var bands = spectrum.BAND10;
 function World() {
 	this.upper = new Array();
 	this.lower = new Array();
+	
+	this.lastSounds = new Array();
+	this.lastSum = 0;
+
+	for(var i = 0; i < 25; ++i) {
+		this.lastSounds.push(0);
+	}
+
 	for(var i = 0; i<constants.STEPS; ++i) {
 		this.upper[i] = new box.Box(5);
 		this.lower[i] = new box.Box(5);
@@ -24,20 +32,31 @@ function World() {
 	var t = this;
 	spectrum.init(function(s) {
 		var data = spectrum.normalize(s, 100);
-//		console.log(data);
 		
 		var sum = 0;
 		for(var i=0; i<data.spectruml.length; ++i) {
 			sum += data.spectruml[i];
 		}
-		t.volume = sum;
+
+
+		var removedVal = t.lastSounds.shift();
+		t.lastSum -= removedVal;
+		t.lastSounds.push(sum);
+		t.lastSum += sum;
+
+
+		//t.volume = t.lastSum/25;
+		var mapGeneratorValue = sum*sum/3000;
+		var lightningEffectValue = sum*sum/600;
 		
+		t.volume = lightningEffectValue;
+
 		var currentValue = t.lastDB;
-		var nextValue = 200+2000*data.wavel[4];
+		var nextValue = mapGeneratorValue;
 		var down = nextValue < currentValue;
-		var change = Math.min(Math.abs(nextValue - currentValue),5+t.difficulty);
+		var change = Math.min(Math.abs(nextValue - currentValue),10+t.difficulty);
 		t.lastDB = currentValue + (down?-change:change);
-		t.lastDB = Math.min(t.lastDB,115);
+		t.lastDB = Math.min(t.lastDB,130);
 //		console.log(t.lastDB);
 	}, bands);
 }
@@ -57,7 +76,6 @@ World.prototype.reset = function() {
 }
 
 World.prototype.setDifficulty = function(difficulty) {
-
 	this.difficulty = difficulty;
 }
 
@@ -98,8 +116,10 @@ World.prototype.getUpperHeight = function(x) {
 
 World.prototype.fetchValues = function() {
 //	console.log('called fetchValues');
-	var newUpper = new box.Box(this.lastDB);//Math.floor(150*Math.random()));
-	var newLower = new box.Box(constants.HEIGHT - this.lastDB - 350+this.difficulty);//Math.floor(150*Math.random()));
+	var usedValue = this.lastDB;
+	console.log(usedValue);
+	var newLower = new box.Box(usedValue);//Math.floor(150*Math.random()));
+	var newUpper = new box.Box(constants.HEIGHT - usedValue - 350+this.difficulty);//Math.floor(150*Math.random()));
 	delete this.upper.shift();
 	delete this.lower.shift();
 	this.upper.push(newUpper);
