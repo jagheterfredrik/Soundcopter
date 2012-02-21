@@ -3,12 +3,13 @@ exports.Copter = Copter;
 var constants = sp.require("constants");
 
 function Copter() {
-	this.x = 180;
-	this.y = 180;
+	this.x = constants.COPTER_X;
+	this.y = constants.COPTER_Y;
 	this.new_x = this.x;
 	this.new_y = this.y;
 	
 	this.direction = 1;
+	this.acc = -1;
 	
 	this.img = new Image();
 	
@@ -21,11 +22,11 @@ function Copter() {
 	this.img.src = "gfx/copter.png";
 	
 	document.getElementById("canvas").addEventListener("mousedown", function() {
-		t.direction = -1;
+		t.doAcc = true;
 	}, false);
 	
 	document.getElementById("canvas").addEventListener("mouseup", function() {
-		t.direction = 1;
+		t.doAcc = false;
 	}, false);
 	
 }
@@ -44,7 +45,14 @@ Copter.prototype.getUpperHeight = function() {
 }
 
 Copter.prototype.update = function() {
-	this.y += this.direction * 4;
+	if(this.doAcc) {
+		this.acc -= 0.1;
+		if(this.acc<-constants.COPTER_MAXSPEED_Y) this.acc = -constants.COPTER_MAXSPEED_Y;
+	} else {
+		this.acc += 0.1;
+		if(this.acc>constants.COPTER_MAXSPEED_Y) this.acc = constants.COPTER_MAXSPEED_Y;
+	}
+	this.y += this.acc * 4;
 }
 
 Copter.prototype.render = function(context) {

@@ -16,7 +16,7 @@ function Game(context) {
 
 Game.prototype.run = function() {
 	var t = this;
-	this.timer = window.setInterval(function() { t.update(); t.render(); }, 20);
+	this.timer = window.setInterval(function() { t.update(); t.render(); }, 15);
 }
 
 Game.prototype.update = function() {
@@ -29,15 +29,15 @@ Game.prototype.update = function() {
 	
 	++this.points;
 	
-	if(this.world.getUpperHeight(180+48) >= (constants.HEIGHT-this.copter.getUpperHeight()) || (this.world.getLowerHeight(180+48) >= this.copter.getHeight())) {
-		console.log("world height at crash "+(this.world.getUpperHeight(180+48)));
+	if(this.world.getUpperHeight(constants.COPTER_Y+48) >= (constants.HEIGHT-this.copter.getUpperHeight()) || (this.world.getLowerHeight(constants.COPTER_Y+48) >= this.copter.getHeight())) {
+		console.log("world height at crash "+(this.world.getUpperHeight(constants.COPTER_Y+48)));
 		console.log("copter height at crash "+(constants.HEIGHT-this.copter.getUpperHeight()));
 		this.lost = true;
 		alert("Game over, you scored "+this.points+" points!");
 		var res = confirm("You ate it, keep playing?");
 		if (res == true) {
 			this.lost = false;
-			this.copter.y = 180;
+			this.copter.y = constants.COPTER_Y;
 		}
 	}
 }

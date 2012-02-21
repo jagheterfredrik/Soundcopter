@@ -45,7 +45,7 @@ function World() {
 		var change = Math.min(Math.abs(nextValue - currentValue),5+t.difficulty);
 		t.lastDB = currentValue + (down?-change:change);
 		t.lastDB = Math.min(t.lastDB,115);
-		console.log(t.lastDB);
+//		console.log(t.lastDB);
 	}, bands);
 }
 
@@ -72,9 +72,9 @@ World.prototype.render = function(context) {
 		green -= 50;
 		blue -= 50;
 		
-		red += Math.floor(255*(this.volume-300)/300);
-		green += Math.floor(255*(this.volume-300)/300);
-		blue += Math.floor(255*(this.volume-300)/300);
+		red += Math.floor(255*(this.volume-300)/500);
+		green += Math.floor(255*(this.volume-300)/500);
+		blue += Math.floor(255*(this.volume-300)/500);
 		
 		context.fillStyle = "rgb("+red+","+green+","+blue+")";
 		context.fillRect(dx*i,0,dx,this.upper[i].height);
