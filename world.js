@@ -22,6 +22,8 @@ function World() {
 	
 	this.offset = 0;
 	
+	this.volume = 0;
+	
 	this.amplitude = 1;
 	
 	console.log("adding event handler");
@@ -30,6 +32,13 @@ function World() {
 	spectrum.init(function(s) {
 		var data = spectrum.normalize(s, 100);
 //		console.log(data);
+		
+		var sum = 0;
+		for(var i=0; i<data.spectruml.length; ++i) {
+			sum += data.spectruml[i];
+		}
+		t.volume = sum;
+		
 		var currentValue = t.lastDB;
 		var nextValue = 200+2000*data.wavel[4];
 		var down = nextValue < currentValue;
@@ -55,6 +64,15 @@ World.prototype.render = function(context) {
 		red   = Math.floor(Math.sin(frequency*j + 0) * 127 + 128);
 		green = Math.floor(Math.sin(frequency*j + 2) * 127 + 128);
 		blue  = Math.floor(Math.sin(frequency*j + 4) * 127 + 128);
+
+		red -= 50;
+		green -= 50;
+		blue -= 50;
+		
+		red += Math.floor(255*(this.volume-300)/300);
+		green += Math.floor(255*(this.volume-300)/300);
+		blue += Math.floor(255*(this.volume-300)/300);
+		
 		context.fillStyle = "rgb("+red+","+green+","+blue+")";
 		context.fillRect(dx*i,0,dx,this.upper[i].height);
 		context.fillRect(dx*i,constants.HEIGHT-this.lower[i].height,dx,this.lower[i].height);
