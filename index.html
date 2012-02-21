@@ -1,8 +1,17 @@
 <!doctype html>
 <html>
 <head>
+	<meta charset="utf-8">
+	<title>Soundcopter</title>
+	<link rel="stylesheet" href="sp://import/css/adam.css">
 </head>
 <body>
 	HELLO WORLD!
+	<canvas id="canvas"></canvas>
+	<script>
+		var sp = getSpotifyApi(1);
+		var soundcopter = sp.require("soundcopter");
+		soundcopter.init();
+	</script>
 </body>
 </html>
