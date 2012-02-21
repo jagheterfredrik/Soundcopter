@@ -1,7 +1,7 @@
 {
 	"BundleType": "Soundcopter",
 	"AppIcon": {
-		"36x18": ""
+		"36x18": "icon.png"
 	},
 	"AppName": {
 		"en": "Soundcopter"
