@@ -9,12 +9,21 @@
 	<div id="points"></div>
 	<br/>
 	<canvas id="canvas" width="500px" height="500px"></canvas>
-	<script>
-		var sp = getSpotifyApi(1);
-		var soundcopter = sp.require("soundcopter");
-		soundcopter.init();
+	<script type="text/javascript">
+		function play_game(){
+			var sp = getSpotifyApi(1);
+			var soundcopter = sp.require("soundcopter");
+			soundcopter.init();
+		}
 	</script>
+</head>
+<body>
+<!--onLoad="play_game()"-->
+	<center>
+	:: SoundCopter ::<br>
+	
 	<br>
-	Play Again...Bitches!
+	<input type="button" name="image" width="90" height="60" onclick="play_game()" value="Play!">
+	</center>
 </body>
 </html>

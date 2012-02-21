@@ -34,8 +34,17 @@ Game.prototype.update = function() {
 		console.log("copter height at crash "+(constants.HEIGHT-this.copter.getUpperHeight()));
 		this.lost = true;
 		alert("Game over, you scored "+this.points+" points!");
+		var res = confirm("You ate it, keep playing?");
+		if (res == true) {
+			this.lost = false;
+			this.copter.y = 180;
+		}
 	}
 }
+Game.prototype.reset = function() {
+	//Write me!
+}
+
 
 Game.prototype.render = function() {
 	if(this.lost) return;
