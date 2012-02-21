@@ -1,0 +1,12 @@
+{
+	"BundleType": "Songcopter",
+	"AppIcon": {
+		"36x18": ""
+	},
+	"AppName": {
+		"en": "Songcopter"
+	},
+	"SupportedLanguages": [
+		"en"
+	]
+}
