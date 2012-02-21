@@ -8,12 +8,8 @@
 		function play_game(){
 			var sp = getSpotifyApi(1);
 			var soundcopter = sp.require("soundcopter");
-			soundcopter.init(1000);
-		}
-		function play_again(){
-			var sp = getSpotifyApi(1);
-			var soundcopter = sp.require("soundcopter");
-			soundcopter.init(1000);	
+			var moo = window.addEventListener( 'resize', function(e) {}, false );
+			soundcopter.init(window.innerWidth);
 		}
 	</script>
 </head>
@@ -26,7 +22,7 @@
 	:: SoundCopter ::<br>
 	
 	<br>
-	<div id ="das_button"><input type="button" onclick="play_again()" value="Play!"> </div>
+	<div id ="play_button"><input type="button" onclick="play_game()" value="Play!"></div>
 	</center>
 </body>
 </html>

@@ -31,6 +31,11 @@ function Copter() {
 	
 }
 
+Copter.prototype.reset = function(){
+	this.x = constants.COPTER_X;
+	this.y = constants.COPTER_Y;
+}
+
 Copter.prototype.moveTo = function(x, y) {
 	this.new_x = x;
 	this.new_y = y;

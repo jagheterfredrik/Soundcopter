@@ -5,8 +5,16 @@ exports.init = init;
 var game = sp.require("game");
 var constants = sp.require("constants");
 
+
+function resize(width) {
+	constants.WIDTH=window.innerWidth;
+}
+
+
 function init(width) {
     console.log("Soundcopter loading!");
+	window.addEventListener('resize', resize(), false );
+
     constants.WIDTH=width
 	var canvas = document.getElementById("canvas");
 	var context = canvas.getContext("2d");

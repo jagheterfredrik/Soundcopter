@@ -1,12 +1,9 @@
 exports.World = World
 
 var sp = getSpotifyApi(1);
-
 var constants = sp.require("constants");
 var box = sp.require("box");
-
 var spectrum = sp.require('spectrum');
-
 var bands = spectrum.BAND10;
 
 function World() {
@@ -19,13 +16,9 @@ function World() {
 	
 	this.lastDB = 0;
 	this.upperDB = 0;
-	
 	this.offset = 0;
-	
 	this.volume = 0;
-	
 	this.amplitude = 1;
-	
 	console.log("adding event handler");
 	
 	var t = this;
@@ -51,6 +44,16 @@ function World() {
 
 World.prototype.update = function() {
 	this.fetchValues();
+}
+
+World.prototype.reset = function() {
+	this.upper = new Array();
+	this.lower = new Array();
+	this.lastDB = 0;
+	this.upperDB = 0;
+	this.offset = 0;
+	this.volume = 0;
+	this.amplitude = 1;
 }
 
 World.prototype.setDifficulty = function(difficulty) {
