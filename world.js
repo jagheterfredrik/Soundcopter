@@ -5,21 +5,27 @@ var constants = sp.require("constants");
 var box = sp.require("box");
 var spectrum = sp.require('spectrum');
 var bands = spectrum.BAND10;
+var obstacle = sp.require('obstacle')
 
 function World() {
 	this.upper = new Array();
-	this.lower = new Array();
-	
+	this.lower = new Array();	
 	this.lastSounds = new Array();
 	this.lastSum = 0;
 
 	for(var i = 0; i < 25; ++i) {
 		this.lastSounds.push(0);
 	}
-
+	this.obstacles = new Array();
 	for(var i = 0; i<constants.STEPS; ++i) {
 		this.upper[i] = new box.Box(5);
 		this.lower[i] = new box.Box(5);
+		if (i % 50 == 0){
+			this.obstacles[i] = new obstacle.Obstacle(400,180);
+		}
+		else{
+			this.obstacles[i] = new obstacle.Obstacle(0,0);	
+		}
 	}
 	
 	this.lastDB = 0;
@@ -100,6 +106,11 @@ World.prototype.render = function(context) {
 		context.fillStyle = "rgb("+red+","+green+","+blue+")";
 		context.fillRect(dx*i,0,dx,this.upper[i].height);
 		context.fillRect(dx*i,constants.HEIGHT-this.lower[i].height,dx,this.lower[i].height);
+		if ((i % 50) == 0){
+			context.fillRect(dx*i,180,5,5)	
+		}
+		
+		//context.fillRect(x,y,size_x,size_y)
 	//	context.fillStyle = "#000000";
 	}
 }
