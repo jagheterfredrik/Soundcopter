@@ -21,8 +21,9 @@ Game.prototype.update = function() {
 	if(this.lost) return;
 	this.world.update();
 	this.copter.update();
-	
-	if(this.world.getLowerHeight(180+48) >= this.copter.getHeight()) {
+	if(this.world.getUpperHeight(180+48) >= (constants.HEIGHT-this.copter.getUpperHeight()) || (this.world.getLowerHeight(180+48) >= this.copter.getHeight())) {
+		console.log("world height at crash "+(this.world.getUpperHeight(180+48)));
+		console.log("copter height at crash "+(constants.HEIGHT-this.copter.getUpperHeight()));
 		this.lost = true;
 		alert("CRASHED");
 	}

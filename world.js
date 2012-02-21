@@ -40,6 +40,11 @@ World.prototype.getLowerHeight = function(x) {
 	return this.lower[i].height;
 }
 
+World.prototype.getUpperHeight = function(x) {
+	var i = Math.floor(x/constants.WIDTH*constants.STEPS);
+	return this.upper[i].height;
+}
+
 World.prototype.fetchValues = function() {
 //	console.log('called fetchValues');
 	var newUpper = new box.Box(Math.floor(150*Math.random()));
