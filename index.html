@@ -4,11 +4,6 @@
 	<meta charset="utf-8">
 	<title>Soundcopter</title>
 	<link rel="stylesheet" href="sp://import/css/adam.css">
-</head>
-<body>
-	<div id="points"></div>
-	<br/>
-	<canvas id="canvas" width="500px" height="500px"></canvas>
 	<script type="text/javascript">
 		function play_game(){
 			var sp = getSpotifyApi(1);
@@ -18,8 +13,11 @@
 	</script>
 </head>
 <body>
-<!--onLoad="play_game()"-->
 	<center>
+	Your score: <div id="points"></div>
+	<br/>
+	<canvas id="canvas" width="2000px" height="500px"></canvas>
+	
 	:: SoundCopter ::<br>
 	
 	<br>
