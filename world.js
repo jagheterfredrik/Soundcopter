@@ -42,8 +42,10 @@ function World() {
 		var currentValue = t.lastDB;
 		var nextValue = 200+2000*data.wavel[4];
 		var down = nextValue < currentValue;
-		var change = Math.min(Math.abs(nextValue - currentValue),25);
+		var change = Math.min(Math.abs(nextValue - currentValue),5+t.difficulty);
 		t.lastDB = currentValue + (down?-change:change);
+		t.lastDB = Math.min(t.lastDB,115);
+		console.log(t.lastDB);
 	}, bands);
 }
 
@@ -52,6 +54,7 @@ World.prototype.update = function() {
 }
 
 World.prototype.setDifficulty = function(difficulty) {
+
 	this.difficulty = difficulty;
 }
 
@@ -93,7 +96,7 @@ World.prototype.getUpperHeight = function(x) {
 World.prototype.fetchValues = function() {
 //	console.log('called fetchValues');
 	var newUpper = new box.Box(this.lastDB);//Math.floor(150*Math.random()));
-	var newLower = new box.Box(constants.HEIGHT - this.lastDB - 200);//Math.floor(150*Math.random()));
+	var newLower = new box.Box(constants.HEIGHT - this.lastDB - 350+this.difficulty);//Math.floor(150*Math.random()));
 	delete this.upper.shift();
 	delete this.lower.shift();
 	this.upper.push(newUpper);
