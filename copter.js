@@ -21,11 +21,22 @@ function Copter() {
 	}
 	this.img.src = "gfx/copter.png";
 	
-	document.getElementById("canvas").addEventListener("mousedown", function() {
+	var canvas = document.getElementById("canvas");
+	
+	canvas.addEventListener("mousedown", function() {
 		t.doAcc = true;
 	}, false);
 	
-	document.getElementById("canvas").addEventListener("mouseup", function() {
+	canvas.addEventListener("mouseup", function() {
+		t.doAcc = false;
+	}, false);
+	
+	document.addEventListener("keydown", function(e) {
+		console.log("keydown");
+		t.doAcc = true;
+	}, false);
+	
+	document.addEventListener("keyup", function(e) {
 		t.doAcc = false;
 	}, false);
 	
