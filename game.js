@@ -34,13 +34,11 @@ Game.prototype.update = function() {
 		console.log("copter height at crash "+(constants.HEIGHT-this.copter.getUpperHeight()));
 		this.lost = true;
 		alert("Game over, you scored "+this.points+" points!");
-		this.reset()
+//		this.reset()
 		document.getElementById("play_button").innerHTML = "<input type='button' onclick='play_game()'' value='Play again!'>"
-		if (res == true) {
 			this.lost = false;
 			this.copter.y = constants.COPTER_Y;
 			this.reset()
-		}
 	}
 }
 Game.prototype.reset = function() {
@@ -48,15 +46,16 @@ Game.prototype.reset = function() {
 	this.copter.reset();
 	this.points = 0;
 	this.lost = false;
+	clearInterval(this.timer);
 }
 
 
 Game.prototype.render = function() {
 	
+	if(this.lost) return;
 	this.context.clearRect(0, 0, constants.WIDTH, constants.HEIGHT);
 	this.world.render(this.context);
 	this.copter.render(this.context);
 	
 	document.getElementById("points").innerHTML = this.points;
-	if(this.lost) return;
 }
