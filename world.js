@@ -14,15 +14,26 @@ function World() {
 }
 
 World.prototype.update = function() {
-	for(var i = 0; i<constants.STEPS; ++i) {
-		this.upper[i].update();
-		this.lower[i].update();
-	}
+	this.fetchValues();
 }
 
 World.prototype.render = function(context) {
+	var dx = constants.WIDTH/constants.STEPS;
 	for(var i = 0; i<constants.STEPS; ++i) {
-		this.upper[i].render(context);
-		this.lower[i].render(context);
+		context.rect(dx*i,0,dx,this.upper[i].height);
+		context.rect(dx*i,constants.HEIGHT-this.upper[i].height,dx,this.upper[i].height);
+		context.fillStyle = "#000000";
 	}
+	context.fill();
 }
+
+World.prototype.fetchValues = function() {
+	console.log('called fetchValues');
+	var newUpper = new box.Box(Math.floor(150*Math.random()));
+	var newLower = new box.Box(Math.floor(150*Math.random()));
+	this.upper.shift();
+	this.lower.shift();
+	this.upper.push(newUpper);
+	this.lower.push(newLower);
+}
+
