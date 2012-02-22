@@ -16,3 +16,6 @@ exports.SINUS_AMPLITUDE = 2.6;
 
 exports.BPM_DIVIDER = 4;
 exports.PERIOD_SLICE = 40;
+
+exports.CLOSE_FINAL_WIDTH = 90;
+exports.CLOSE_STEP_WIDTH = 2;

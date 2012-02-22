@@ -11,20 +11,13 @@ function resize() {
 	constants.WIDTH=window.innerWidth;
 }
 
-var cb, track;
-
-function showInfo() {
-	cb();
-}
-
-function init(callback) {
+function init() {
     console.log("Soundcopter loading!");
-	cb = callback;
 	window.addEventListener( 'resize', resize(), false );
 
 	var canvas = document.getElementById("canvas");
 	var context = canvas.getContext("2d");
-	console.log(context, showInfo);
+	
 	console.log("Soundcopter creating new game!");
 	gameInstance = new game.Game(context);
 	console.log("Soundcopter starting new game!");
