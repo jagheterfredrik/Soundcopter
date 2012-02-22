@@ -123,8 +123,8 @@ World.prototype.render = function(context) {
 		blue += Math.floor(255*(this.lightningEffectValue-300)/500);
 		
 		context.fillStyle = "rgb("+red+","+green+","+blue+")";
-		context.fillRect(dx*i,0,dx, this.upper[i].height);
-		context.fillRect(dx*i,constants.HEIGHT-this.lower[i].height,dx,this.lower[i].height);
+		context.fillRect(dx*i, 0, dx+1, this.upper[i].height);
+		context.fillRect(dx*i, constants.HEIGHT-this.lower[i].height, dx+1, this.lower[i].height);
 /*		if (this.obstacles[i].exist) {
 			context.fillRect(dx*i,this.obstacles[i].y, this.obstacles[i].width, this.obstacles[i].height);
 		}

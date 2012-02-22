@@ -80,15 +80,14 @@ Game.prototype.update = function() {
 		//alert("Game over, you scored "+this.points+" points!");
 		
 		var prevHighscore = localStorage.getItem(models.player.track.uri);
-		if(prevHighscore !== null) {
-			if(this.points > prevHighscore) {
-				$("#prevscore").html("NEW HIGHSCORE! (Previously: "+prevHighscore+")");
-				localStorage.setItem(models.player.track.uri, this.points);
-			} else {
-				$("#prevscore").html("Your previous highscore is "+prevHighscore);
-			}
-		} else {
+		if(prevHighscore === null) {
+			prevHighscore = 0;
+		}
+		if(this.points > prevHighscore) {
+			$("#prevscore").html("NEW HIGHSCORE!");
 			localStorage.setItem(models.player.track.uri, this.points);
+		} else {
+			$("#prevscore").html("Your previous highscore is "+prevHighscore);
 		}
 		
 		$("#crashinfo").show();
@@ -96,7 +95,7 @@ Game.prototype.update = function() {
 		$("#finalscore").html(this.points+" POINTS!");
 		setTimeout(function() {
 			document.addEventListener("keydown", function(){window.location=window.location;}, false);
-		}, 1000, false);
+		}, 700, false);
 		
 		this.reset();
 
