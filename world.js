@@ -59,7 +59,7 @@ World.prototype.setMapGeneratorValue = function(spectrumSum) {
 	var currentValue = this.mapGeneratorValue;
 	var nextValue = spectrumSum*spectrumSum/3000;
 	var down = nextValue < currentValue;
-	var change = Math.min(Math.abs(nextValue - currentValue),30000+constants.DIFFICULTY_MULT*this.getDifficulty());
+	var change = Math.min(Math.abs(nextValue - currentValue),20+constants.DIFFICULTY_MULT*this.getDifficulty());
 	this.mapGeneratorValue = currentValue + (down?-change:change);
 //	this.mapGeneratorValue = Math.min(this.mapGeneratorValue,200);
 }
@@ -148,6 +148,8 @@ World.prototype.getUpperValue = function(x) {
 World.prototype.fetchValues = function() {
 	// use latest value of private variable
 	var usedValue = this.mapGeneratorValue;
+
+	usedValue += (usedValue*constants.AMPLITUDE_MULT)*Math.sin(10*this.getDifficulty());// replace with song BPM
 
 	// fetch values for lower & upper
 	var newLower = new box.Box(this.getLowerValue(usedValue));
