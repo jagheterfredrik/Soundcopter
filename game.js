@@ -84,9 +84,10 @@ Game.prototype.update = function() {
 		document.getElementById("play_button").innerHTML = "<input type='button' onclick='play_game()'' value='Play again!'>"
 		this.lost = false;
 		this.copter.y = constants.COPTER_Y;
-		this.reset();
 		
 		alert("Game over, you scored "+this.points+" points!");
+		
+		this.reset();
 		window.location = window.location;
 	}
 }
