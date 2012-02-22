@@ -13,9 +13,6 @@ function World() {
 	this.lastSounds = new Array();
 	this.lastSum = 0;
 
-	for(var i = 0; i < 25; ++i) {
-		this.lastSounds.push(0);
-	}
 	this.obstacles = new Array();
 	for(var i = 0; i<constants.STEPS; ++i) {
 		this.upper[i] = new box.Box(5);
@@ -28,43 +25,35 @@ function World() {
 		}
 	}
 	
-	this.lastDB = 0;
+	this.mapGeneratorValue = 0;
 	this.upperDB = 0;
 	this.offset = 0;
-	this.volume = 0;
+	this.lightningEffectValue = 0;
 	this.amplitude = 1;
 	console.log("adding event handler");
-	
 	var t = this;
 	spectrum.init(function(s) {
 		var data = spectrum.normalize(s, 100);
-		
-		var sum = 0;
+		var spectrumSum = 0;
 		for(var i=0; i<data.spectruml.length; ++i) {
-			sum += data.spectruml[i];
+			spectrumSum += data.spectruml[i];
 		}
-
-
-		var removedVal = t.lastSounds.shift();
-		t.lastSum -= removedVal;
-		t.lastSounds.push(sum);
-		t.lastSum += sum;
-
-
-		//t.volume = t.lastSum/25;
-		var mapGeneratorValue = sum*sum/3000;
-		var lightningEffectValue = sum*sum/600;
-		
-		t.volume = lightningEffectValue;
-
-		var currentValue = t.lastDB;
-		var nextValue = mapGeneratorValue;
-		var down = nextValue < currentValue;
-		var change = Math.min(Math.abs(nextValue - currentValue),10+t.difficulty);
-		t.lastDB = currentValue + (down?-change:change);
-		t.lastDB = Math.min(t.lastDB,130);
-//		console.log(t.lastDB);
+		t.setMapGeneratorValue(spectrumSum);
+		t.setLightningEffectValue(spectrumSum);
 	}, bands);
+}
+
+World.prototype.setMapGeneratorValue = function(spectrumSum) {
+	var currentValue = this.mapGeneratorValue;
+	var nextValue = spectrumSum*spectrumSum/3000;
+	var down = nextValue < currentValue;
+	var change = Math.min(Math.abs(nextValue - currentValue),10+this.getDifficulty());
+	this.mapGeneratorValue = currentValue + (down?-change:change);
+	this.mapGeneratorValue = Math.min(this.mapGeneratorValue,130);
+}
+
+World.prototype.setLightningEffectValue = function(spectrumSum) {
+	this.lightningEffectValue = spectrumSum*spectrumSum/600;
 }
 
 World.prototype.update = function() {
@@ -74,15 +63,19 @@ World.prototype.update = function() {
 World.prototype.reset = function() {
 	this.upper = new Array();
 	this.lower = new Array();
-	this.lastDB = 0;
+	this.mapGeneratorValue = 0;
 	this.upperDB = 0;
 	this.offset = 0;
-	this.volume = 0;
+	this.lightningEffectValue = 0;
 	this.amplitude = 1;
 }
 
 World.prototype.setDifficulty = function(difficulty) {
 	this.difficulty = difficulty;
+}
+
+World.prototype.getDifficulty = function() {
+	return this.difficulty;
 }
 
 World.prototype.render = function(context) {
@@ -99,9 +92,9 @@ World.prototype.render = function(context) {
 		green -= 50;
 		blue -= 50;
 		
-		red += Math.floor(255*(this.volume-300)/500);
-		green += Math.floor(255*(this.volume-300)/500);
-		blue += Math.floor(255*(this.volume-300)/500);
+		red += Math.floor(255*(this.lightningEffectValue-300)/500);
+		green += Math.floor(255*(this.lightningEffectValue-300)/500);
+		blue += Math.floor(255*(this.lightningEffectValue-300)/500);
 		
 		context.fillStyle = "rgb("+red+","+green+","+blue+")";
 		context.fillRect(dx*i,0,dx,this.upper[i].height);
@@ -109,9 +102,6 @@ World.prototype.render = function(context) {
 		if ((i % 50) == 0){
 			context.fillRect(dx*i,180,5,5)	
 		}
-		
-		//context.fillRect(x,y,size_x,size_y)
-	//	context.fillStyle = "#000000";
 	}
 }
 
@@ -125,12 +115,29 @@ World.prototype.getUpperHeight = function(x) {
 	return this.upper[i].height;
 }
 
+World.prototype.getLowerValue = function(x) {
+	return x+this.getDifficulty()*constants.DIFFICULTY_MULT;
+}
+
+World.prototype.getUpperValue = function(x) {
+	return constants.HEIGHT-x-constants.INITIAL_WIDTH;
+}
+
+/** 
+  * Fetches new values from the map generator local variable, and
+  * puts them into the world data structures, making use of
+  * difficulty functions etc, etc.
+  *
+  */
 World.prototype.fetchValues = function() {
-//	console.log('called fetchValues');
-	var usedValue = this.lastDB;
-	console.log(usedValue);
-	var newLower = new box.Box(usedValue);//Math.floor(150*Math.random()));
-	var newUpper = new box.Box(constants.HEIGHT - usedValue - 350+this.difficulty);//Math.floor(150*Math.random()));
+	// use latest value of private variable
+	var usedValue = this.mapGeneratorValue;
+
+	// fetch values for lower & upper
+	var newLower = new box.Box(this.getLowerValue(usedValue));
+	var newUpper = new box.Box(this.getUpperValue(usedValue));
+
+	// update values
 	delete this.upper.shift();
 	delete this.lower.shift();
 	this.upper.push(newUpper);
