@@ -26,14 +26,18 @@ function Game(context) {
 
 Game.prototype.newSong = function(artist, title) {
 	console.log("song changed to "+title +" BY "+ artist);
+	var t = this;
 	$.getJSON("http://developer.echonest.com/api/v4/song/search?api_key=QBELDDBA04HW6PHU3&artist="+artist+"&title="+title, function(data) {
 		if(data.response.songs.length == 0) {
 			console.log("No sound data available");
+			t.world.setBPM(120);
 			//set default value in world
 		} else {
 			$.getJSON("http://developer.echonest.com/api/v4/song/profile?api_key=QBELDDBA04HW6PHU3&id="+data.response.songs[0].id+"&bucket=audio_summary", function(data){
 				var bpm = data.response.songs[0].audio_summary.tempo;
+				console.log('got bpm from echonest: ',bpm);
 				//call bpm-changer in world
+				t.world.setBPM(bpm);
 			});
 		}
 	});
@@ -41,7 +45,7 @@ Game.prototype.newSong = function(artist, title) {
 
 Game.prototype.run = function() {
 	var t = this;
-	this.timer = window.setInterval(function() { t.update(); t.render(); }, 15);
+	this.timer = window.setInterval(function() { t.update(); t.render(); }, constants.GAME_UPDATE_RATE);
 }
 
 Game.prototype.pause = function() {

@@ -12,6 +12,7 @@ function World() {
 	this.lower = new Array();	
 	this.lastSounds = new Array();
 	this.lastSum = 0;
+	this.songBPM = constants.DEFAULT_BPM;
 
 	this.obstacles = new Array();
 	for(var i = 0; i<constants.STEPS; ++i) {
@@ -54,6 +55,15 @@ function World() {
 	})(this);
 }
 
+World.prototype.setBPM = function(val) {
+	console.log('BPM being changed to: ',val);
+	this.songBPM = val;
+}
+
+World.prototype.getBPM = function() {
+	return this.songBPM;
+}
+
 World.prototype.setMapGeneratorValue = function(spectrumSum) {
 	var currentValue = this.mapGeneratorValue;
 	var nextValue = spectrumSum*spectrumSum/3000;
@@ -69,9 +79,17 @@ World.prototype.setLightningEffectValue = function(spectrumSum) {
 
 World.prototype.update = function() {
 	this.fetchValues();
+
+	var diff = 2*Math.PI/((1000/constants.GAME_UPDATE_RATE)/(60/this.songBPM));
+
+	this.sinoffset += diff;
+	if (this.sinoffset >= 2*Math.PI) {
+		this.sinoffset -= 2*Math.PI;
+		console.log('tick');
+	}
 	
-	this.sinoffset += 0.05;
-	this.sinoffset %= 2*Math.PI;
+
+	
 }
 
 World.prototype.reset = function() {
@@ -148,7 +166,7 @@ World.prototype.fetchValues = function() {
 	// use latest value of private variable
 	var usedValue = this.mapGeneratorValue;
 
-	usedValue += (usedValue*constants.AMPLITUDE_MULT)*Math.sin(10*this.getDifficulty());// replace with song BPM
+	usedValue += (usedValue*constants.AMPLITUDE_MULT)*Math.sin(this.sinoffset);// replace with song BPM
 
 	// fetch values for lower & upper
 	var newLower = new box.Box(this.getLowerValue(usedValue));
