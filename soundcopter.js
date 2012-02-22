@@ -28,9 +28,8 @@ function init(callback) {
 	console.log("Soundcopter creating new game!");
 	gameInstance = new game.Game(context);
 	console.log("Soundcopter starting new game!");
-	
-	var info = document.getElementById("info");
-	info.style.display = 'none';
+
+	$("#info").hide();
 
 	models.player.play(models.player.track);
 	gameInstance.run();

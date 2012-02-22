@@ -74,21 +74,32 @@ Game.prototype.update = function() {
 		console.log("world height at crash "+(this.world.getUpperHeight(constants.COPTER_X+48)));
 		console.log("copter height at crash "+(constants.HEIGHT-this.copter.getUpperHeight()));
 		this.lost = true;
-		
-		//models.player.play(models.Track.fromURI("spotify:track:6JEK0CvvjDjjMUBFoXShNZ"));
+
 		models.player.playing = false;
 		
-		//spotify:track:6JEK0CvvjDjjMUBFoXShNZ
+		//alert("Game over, you scored "+this.points+" points!");
 		
-//		this.reset()
-		document.getElementById("play_button").innerHTML = "<input type='button' onclick='play_game()'' value='Play again!'>"
-		this.lost = false;
-		this.copter.y = constants.COPTER_Y;
+		var prevHighscore = localStorage.getItem(models.player.track.uri);
+		if(prevHighscore !== null) {
+			if(this.points > prevHighscore) {
+				$("#prevscore").html("NEW HIGHSCORE! (Previously: "+prevHighscore+")");
+				localStorage.setItem(models.player.track.uri, this.points);
+			} else {
+				$("#prevscore").html("Your previous highscore is "+prevHighscore);
+			}
+		} else {
+			localStorage.setItem(models.player.track.uri, this.points);
+		}
 		
-		alert("Game over, you scored "+this.points+" points!");
+		$("#crashinfo").show();
+		$("#points").html(this.points);
+		$("#finalscore").html(this.points+" POINTS!");
+		setTimeout(function() {
+			document.addEventListener("keydown", function(){window.location=window.location;}, false);
+		}, 1000, false);
 		
 		this.reset();
-		window.location = window.location;
+
 	}
 }
 Game.prototype.reset = function() {
@@ -107,5 +118,5 @@ Game.prototype.render = function() {
 	this.world.render(this.context);
 	this.copter.render(this.context);
 	
-	document.getElementById("points").innerHTML = this.points;
+	$("#points").html(this.points);
 }
