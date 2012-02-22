@@ -12,5 +12,8 @@
 	},
 	"SupportedLanguages": [
 		"en"
+	],
+	"RequiredPermissions": [
+		"http://*"
 	]
 }

@@ -18,10 +18,11 @@ function init(width) {
 	var context = canvas.getContext("2d");
 	console.log(context);
 	console.log("Soundcopter creating new game!");
-	game = new game.Game(context);
+	gameInstance = new game.Game(context);
 	console.log("Soundcopter starting new game!");
 	
 	var info = document.getElementById("info");
 	info.style.display = 'none';
-	game.run();
+	
+	gameInstance.run();
 }

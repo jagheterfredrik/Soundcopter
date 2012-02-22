@@ -4,15 +4,15 @@
 	<meta charset="utf-8">
 	<title>Soundcopter</title>
 	<link rel="stylesheet" href="sp://import/css/adam.css">
+	<script type="text/javascript" src="jquery-1.7.1.min.js"></script>
 	<script type="text/javascript">
 		function playGame(){
+			document.removeEventListener("keydown", playGame, false);
 			var sp = getSpotifyApi(1);
 			var soundcopter = sp.require("soundcopter");
 			soundcopter.init();
 		}
-		document.addEventListener("keydown", function(e) {
-			playGame()
-		}, false);
+		document.addEventListener("keydown", playGame, false);
 	</script>
 	<style>
 	body {

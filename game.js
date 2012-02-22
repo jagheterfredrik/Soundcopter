@@ -1,22 +1,55 @@
 exports.Game = Game;
 
+var sp = getSpotifyApi(1);
+
 var constants = sp.require("constants");
 var copter = sp.require("copter");
 var world = sp.require("world");
+
+var models = sp.require('sp://import/scripts/api/models');
 
 function Game(context) {
 	this.context = context;
 	this.copter = new copter.Copter();
 	this.world = new world.World();
 	
-	this.points = 0;
+	var t = this;
+	models.player.observe(models.EVENT.CHANGE, function(event) {
+		if(event.data.curtrack) {
+			t.newSong(models.player.track.artists[0].name.decodeForText(), models.player.track.name.decodeForText());
+		}
+	});
 	
+	this.points = 0;
 	this.lost = false;
+}
+
+Game.prototype.newSong = function(artist, title) {
+	console.log("song changed to "+title +" BY "+ artist);
+	$.getJSON("http://developer.echonest.com/api/v4/song/search?api_key=QBELDDBA04HW6PHU3&artist="+artist+"&title="+title, function(data) {
+		if(data.response.songs.length == 0) {
+			console.log("No sound data available");
+			//set default value in world
+		} else {
+			$.getJSON("http://developer.echonest.com/api/v4/song/profile?api_key=QBELDDBA04HW6PHU3&id="+data.response.songs[0].id+"&bucket=audio_summary", function(data){
+				var bpm = data.response.songs[0].audio_summary.tempo;
+				//call bpm-changer in world
+			});
+		}
+	});
 }
 
 Game.prototype.run = function() {
 	var t = this;
 	this.timer = window.setInterval(function() { t.update(); t.render(); }, 15);
+}
+
+Game.prototype.pause = function() {
+	window.clearInterval(this.timer);
+}
+
+Game.prototype.isRunning = function() {
+	return !this.lost;
 }
 
 Game.prototype.update = function() {

@@ -35,7 +35,6 @@ function World() {
 	
 	console.log("adding event handler");
 
-	var t = this;
 	(function(t) {
 		spectrum.init(function(s) {
 			if(isNaN(t.mapGeneratorValue)) {
