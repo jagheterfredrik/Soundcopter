@@ -5,24 +5,62 @@
 	<title>Soundcopter</title>
 	<link rel="stylesheet" href="sp://import/css/adam.css">
 	<script type="text/javascript">
-		function play_game(){
+		function playGame(){
 			var sp = getSpotifyApi(1);
 			var soundcopter = sp.require("soundcopter");
-			var moo = window.addEventListener( 'resize', function(e) {}, false );
-			soundcopter.init(window.innerWidth);
+			soundcopter.init();
 		}
+		document.addEventListener("keydown", function(e) {
+			playGame()
+		}, false);
 	</script>
+	<style>
+	body {
+		background-image:url("gfx/texture.jpg");
+		overflow: hidden;
+	}
+	#info {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		margin-left: -200px;
+		margin-top: -130px;
+		width:400px;
+		height:260px;
+		background: #ffffff;
+		-webkit-border-radius: 10px;
+	}
+	#infoinfo {
+		padding: 10px;
+	}
+	canvas {
+		background: #373737;
+	}
+	h1 {
+		color: black;
+	}
+	</style>
 </head>
 <body>
 	<center>
-	Your score: <div id="points"></div>
+	Your score: <div id="points">
+		<br/>
+	</div>
 	<br/>
+
+	<div id="info">
+		<div id="infoinfo">
+			<br/><br/>
+			<h1>Welcome to Soundcopter!</h1><br/>
+			<p>In the game you have to accelerate the (nyan?)heli to prevent it from crashing resulting in the (nyan?)pilots immediate death</p><br/><br/>
+			<p>To start playing press any keyboard key or the button below.</p>
+			<div id ="play_button"><input type="button" onclick="playGame()" value="Play!"></div>
+		</div>
+	</div>
+
 	<canvas id="canvas" width="1000px" height="500px"></canvas>
-	
-	:: SoundCopter ::<br>
-	
-	<br>
-	<div id ="play_button"><input type="button" onclick="play_game()" value="Play!"></div>
+	<br/>
+	<br/>
 	</center>
 </body>
 </html>

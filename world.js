@@ -30,17 +30,29 @@ function World() {
 	this.offset = 0;
 	this.lightningEffectValue = 0;
 	this.amplitude = 1;
+	
+	this.sinoffset = 0;
+	
 	console.log("adding event handler");
+
 	var t = this;
-	spectrum.init(function(s) {
-		var data = spectrum.normalize(s, 100);
-		var spectrumSum = 0;
-		for(var i=0; i<data.spectruml.length; ++i) {
-			spectrumSum += data.spectruml[i];
-		}
-		t.setMapGeneratorValue(spectrumSum);
-		t.setLightningEffectValue(spectrumSum);
-	}, bands);
+	(function(t) {
+		spectrum.init(function(s) {
+			if(isNaN(t.mapGeneratorValue)) {
+				//Some weird stuff that we have to prevent here
+				console.log("It happend again!!");
+				t.mapGeneratorValue = 0;
+			}
+		
+			var data = spectrum.normalize(s, 100);
+			var spectrumSum = 0;
+			for(var i=0; i<data.spectruml.length; ++i) {
+				spectrumSum += data.spectruml[i];
+			}
+			t.setMapGeneratorValue(spectrumSum);
+			t.setLightningEffectValue(spectrumSum);
+		}, bands);
+	})(this);
 }
 
 World.prototype.setMapGeneratorValue = function(spectrumSum) {
@@ -58,6 +70,9 @@ World.prototype.setLightningEffectValue = function(spectrumSum) {
 
 World.prototype.update = function() {
 	this.fetchValues();
+	
+	this.sinoffset += 0.05;
+	this.sinoffset %= 2*Math.PI;
 }
 
 World.prototype.reset = function() {
@@ -82,6 +97,7 @@ World.prototype.render = function(context) {
 	var dx = constants.WIDTH/constants.STEPS;
 	var frequency = Math.PI/constants.STEPS;
 	++this.offset;
+	
 	for(var i = 0; i<constants.STEPS; ++i) {
 		var j = i+this.offset%constants.STEPS*2;
 		red   = Math.floor(Math.sin(frequency*j + 0) * 127 + 128);
@@ -97,7 +113,7 @@ World.prototype.render = function(context) {
 		blue += Math.floor(255*(this.lightningEffectValue-300)/500);
 		
 		context.fillStyle = "rgb("+red+","+green+","+blue+")";
-		context.fillRect(dx*i,0,dx,this.upper[i].height);
+		context.fillRect(dx*i,0,dx, this.upper[i].height);
 		context.fillRect(dx*i,constants.HEIGHT-this.lower[i].height,dx,this.lower[i].height);
 		if ((i % 50) == 0){
 			context.fillRect(dx*i,180,5,5)	
