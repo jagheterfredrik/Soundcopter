@@ -55,7 +55,7 @@ Copter.prototype.moveTo = function(x, y) {
 }
 
 Copter.prototype.getHeight = function() {
-	console.log("copter.getHeight is depricated. Use getLowerHeight instead");
+//	console.log("copter.getHeight is depricated. Use getLowerHeight instead");
 	return constants.HEIGHT - this.y - 56;
 }
 Copter.prototype.getLowerHeight = function() {
