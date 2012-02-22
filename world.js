@@ -125,9 +125,10 @@ World.prototype.render = function(context) {
 		context.fillStyle = "rgb("+red+","+green+","+blue+")";
 		context.fillRect(dx*i,0,dx, this.upper[i].height);
 		context.fillRect(dx*i,constants.HEIGHT-this.lower[i].height,dx,this.lower[i].height);
-		if (this.obstacles[i].exist) {
+/*		if (this.obstacles[i].exist) {
 			context.fillRect(dx*i,this.obstacles[i].y, this.obstacles[i].width, this.obstacles[i].height);
 		}
+*/
 	}
 }
 
@@ -157,9 +158,10 @@ World.prototype.getUpperValue = function(x) {
   */
 World.prototype.fetchValues = function() {
 	// use latest value of private variable
-	var usedValue = this.mapGeneratorValue;
-
-	usedValue += (usedValue*constants.AMPLITUDE_MULT)*Math.sin(this.sinoffset);// replace with song BPM
+	var usedValue = this.mapGeneratorValue * 1.5 - 40;
+	//console.log(usedValue);
+	
+	usedValue += constants.AMPLITUDE_MULT*Math.sin(this.sinoffset);// replace with song BPM
 
 	// fetch values for lower & upper
 	var newLower = new box.Box(this.getLowerValue(usedValue));
@@ -171,7 +173,7 @@ World.prototype.fetchValues = function() {
 	delete this.obstacles.shift();
 	this.upper.push(newUpper);
 	this.lower.push(newLower);
-	this.obstacles.push(newObstacle);
+//	this.obstacles.push(newObstacle);
 	
 //	console.log("lower len: "+this.lower.length);
 }

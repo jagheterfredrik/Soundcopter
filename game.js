@@ -8,10 +8,12 @@ var world = sp.require("world");
 
 var models = sp.require('sp://import/scripts/api/models');
 
-function Game(context) {
+function Game(context, callback) {
 	this.context = context;
 	this.copter = new copter.Copter();
 	this.world = new world.World();
+	
+	this.callback = callback;
 	
 	var t = this;
 	models.player.observe(models.EVENT.CHANGE, function(event) {
@@ -72,12 +74,20 @@ Game.prototype.update = function() {
 		console.log("world height at crash "+(this.world.getUpperHeight(constants.COPTER_X+48)));
 		console.log("copter height at crash "+(constants.HEIGHT-this.copter.getUpperHeight()));
 		this.lost = true;
-		alert("Game over, you scored "+this.points+" points!");
+		
+		//models.player.play(models.Track.fromURI("spotify:track:6JEK0CvvjDjjMUBFoXShNZ"));
+		models.player.playing = false;
+		
+		//spotify:track:6JEK0CvvjDjjMUBFoXShNZ
+		
 //		this.reset()
 		document.getElementById("play_button").innerHTML = "<input type='button' onclick='play_game()'' value='Play again!'>"
-			this.lost = false;
-			this.copter.y = constants.COPTER_Y;
-			this.reset()
+		this.lost = false;
+		this.copter.y = constants.COPTER_Y;
+		this.reset();
+		
+		alert("Game over, you scored "+this.points+" points!");
+		window.location = window.location;
 	}
 }
 Game.prototype.reset = function() {

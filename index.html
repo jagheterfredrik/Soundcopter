@@ -10,9 +10,12 @@
 			document.removeEventListener("keydown", playGame, false);
 			var sp = getSpotifyApi(1);
 			var soundcopter = sp.require("soundcopter");
-			soundcopter.init();
+			soundcopter.init(setup);
 		}
-		document.addEventListener("keydown", playGame, false);
+		function setup() {
+			document.addEventListener("keydown", playGame, false);
+		}
+		setup();
 	</script>
 	<style>
 	body {

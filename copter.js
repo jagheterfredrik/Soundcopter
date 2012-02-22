@@ -1,5 +1,7 @@
 exports.Copter = Copter;
 
+
+var sp = getSpotifyApi(1);
 var constants = sp.require("constants");
 
 function Copter() {
