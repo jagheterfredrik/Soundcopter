@@ -59,9 +59,9 @@ World.prototype.setMapGeneratorValue = function(spectrumSum) {
 	var currentValue = this.mapGeneratorValue;
 	var nextValue = spectrumSum*spectrumSum/3000;
 	var down = nextValue < currentValue;
-	var change = Math.min(Math.abs(nextValue - currentValue),10+this.getDifficulty());
+	var change = Math.min(Math.abs(nextValue - currentValue),30+this.getDifficulty());
 	this.mapGeneratorValue = currentValue + (down?-change:change);
-	this.mapGeneratorValue = Math.min(this.mapGeneratorValue,130);
+	this.mapGeneratorValue = Math.min(this.mapGeneratorValue,150);
 }
 
 World.prototype.setLightningEffectValue = function(spectrumSum) {
@@ -136,7 +136,7 @@ World.prototype.getLowerValue = function(x) {
 }
 
 World.prototype.getUpperValue = function(x) {
-	return constants.HEIGHT-x-constants.INITIAL_WIDTH;
+	return constants.HEIGHT-x-constants.INITIAL_WIDTH+Math.floor(10*Math.random()-5);
 }
 
 /** 
