@@ -5,7 +5,7 @@ var constants = sp.require("constants");
 var box = sp.require("box");
 var spectrum = sp.require('spectrum');
 var bands = spectrum.BAND10;
-var obstacle = sp.require('obstacle')
+var obstacle = sp.require('obstacle');
 
 function World() {
 	this.upper = new Array();
@@ -13,25 +13,17 @@ function World() {
 	this.lastSounds = new Array();
 	this.lastSum = 0;
 	this.songBPM = constants.DEFAULT_BPM;
-
 	this.obstacles = new Array();
 	for(var i = 0; i<constants.STEPS; ++i) {
 		this.upper[i] = new box.Box(5);
 		this.lower[i] = new box.Box(5);
-		if (i % 50 == 0){
-			this.obstacles[i] = new obstacle.Obstacle(400,180);
-		}
-		else{
-			this.obstacles[i] = new obstacle.Obstacle(0,0);	
-		}
+		this.obstacles[i] = new obstacle.Obstacle(0,false);
 	}
-	
 	this.mapGeneratorValue = 0;
 	this.upperDB = 0;
 	this.offset = 0;
 	this.lightningEffectValue = 0;
 	this.amplitude = 1;
-	
 	this.sinoffset = 0;
 	
 	console.log("adding event handler");
@@ -133,8 +125,8 @@ World.prototype.render = function(context) {
 		context.fillStyle = "rgb("+red+","+green+","+blue+")";
 		context.fillRect(dx*i,0,dx, this.upper[i].height);
 		context.fillRect(dx*i,constants.HEIGHT-this.lower[i].height,dx,this.lower[i].height);
-		if ((i % 50) == 0){
-			context.fillRect(dx*i,180,5,5)	
+		if (this.obstacles[i].exist) {
+			context.fillRect(dx*i,this.obstacles[i].y, this.obstacles[i].width, this.obstacles[i].height);
 		}
 	}
 }
@@ -176,8 +168,10 @@ World.prototype.fetchValues = function() {
 	// update values
 	delete this.upper.shift();
 	delete this.lower.shift();
+	delete this.obstacles.shift();
 	this.upper.push(newUpper);
 	this.lower.push(newLower);
+	this.obstacles.push(newObstacle);
 	
 //	console.log("lower len: "+this.lower.length);
 }
