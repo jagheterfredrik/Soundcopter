@@ -32,7 +32,7 @@ function Copter() {
 	}, false);
 	
 	document.addEventListener("keydown", function(e) {
-		console.log("keydown");
+//		console.log("keydown");
 		t.doAcc = true;
 	}, false);
 	

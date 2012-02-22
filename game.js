@@ -20,6 +20,8 @@ function Game(context) {
 		}
 	});
 	
+	t.newSong(models.player.track.artists[0].name.decodeForText(), models.player.track.name.decodeForText());
+	
 	this.points = 0;
 	this.lost = false;
 }

@@ -58,6 +58,9 @@ function World() {
 World.prototype.setBPM = function(val) {
 	console.log('BPM being changed to: ',val);
 	this.songBPM = val;
+
+	var t = this;
+	this.bpmTimer = window.setInterval(function(){t.bpmTick()}, (60/(this.songBPM/constants.BPM_DIVIDER))*1000/constants.PERIOD_SLICE, false);
 }
 
 World.prototype.getBPM = function() {
@@ -77,19 +80,17 @@ World.prototype.setLightningEffectValue = function(spectrumSum) {
 	this.lightningEffectValue = spectrumSum*spectrumSum/600;
 }
 
-World.prototype.update = function() {
-	this.fetchValues();
-
-	var diff = 2*Math.PI/((1000/constants.GAME_UPDATE_RATE)/(60/this.songBPM));
-
-	this.sinoffset += diff;
-	if (this.sinoffset >= 2*Math.PI) {
+World.prototype.bpmTick = function() {
+	if(this.sinoffset == undefined) this.sinoffset = 0;
+	this.sinoffset += 2*Math.PI / constants.PERIOD_SLICE;
+	if(this.sinoffset > 2*Math.PI) {
 		this.sinoffset -= 2*Math.PI;
-		console.log('tick');
+		console.log("TICK");
 	}
-	
+}
 
-	
+World.prototype.update = function() {
+	this.fetchValues()
 }
 
 World.prototype.reset = function() {
