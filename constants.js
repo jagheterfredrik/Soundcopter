@@ -13,5 +13,5 @@ exports.INITIAL_WIDTH = 350;
 exports.DIFFICULTY_MULT = 3;
 exports.AMPLITUDE_MULT = 0.8;
 
-exports.BPM_DIVIDER = 2;
+exports.BPM_DIVIDER = 4;
 exports.PERIOD_SLICE = 40;
