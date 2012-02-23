@@ -4,7 +4,7 @@ var constants = sp.require("constants");
 
 exports.Close = Close;
 
-var ratio = 4.78;
+var ratio = 3.0;
 
 function Close() {
 	this.x = 0;
