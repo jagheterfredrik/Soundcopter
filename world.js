@@ -123,23 +123,20 @@ World.prototype.render = function(context) {
 		blue += Math.floor(255*(this.lightningEffectValue-300)/500);
 		
 		context.fillStyle = "rgb("+red+","+green+","+blue+")";
-		context.fillRect(dx*i, 0, dx+1, this.upper[i].height);
-		context.fillRect(dx*i, constants.HEIGHT-this.lower[i].height, dx+1, this.lower[i].height);
-/*		if (this.obstacles[i].exist) {
+		context.fillRect(dx*i,0,dx, this.upper[i].height);
+		context.fillRect(dx*i,constants.HEIGHT-this.lower[i].height,dx,this.lower[i].height);
+		if (this.obstacles[i].exist) {
 			context.fillRect(dx*i,this.obstacles[i].y, this.obstacles[i].width, this.obstacles[i].height);
 		}
-*/
 	}
 }
 
 World.prototype.getLowerHeight = function(x) {
-	var i = Math.floor(x/constants.WIDTH*constants.STEPS);
-	return this.lower[i].height;
+	return this.getLowerValue(x);
 }
 
 World.prototype.getUpperHeight = function(x) {
-	var i = Math.floor(x/constants.WIDTH*constants.STEPS);
-	return this.upper[i].height;
+	return this.getUpperValue(x);
 }
 
 World.prototype.getLowerValue = function(x) {
@@ -166,6 +163,16 @@ World.prototype.fetchValues = function() {
 	// fetch values for lower & upper
 	var newLower = new box.Box(this.getLowerValue(usedValue));
 	var newUpper = new box.Box(this.getUpperValue(usedValue));
+	if(Math.random()>0.98){
+		var obst = ((500-newLower.height) - newUpper.height) * Math.random()^2
+		var newObstacle = new obstacle.Obstacle(obst,true);
+		console.log("height of obstacle"+obst);
+		console.log("newLower"+newLower.height);
+		console.log("newUpper"+newUpper.height);
+	}
+	else{
+		var newObstacle = new obstacle.Obstacle(0,false);
+	}
 
 	// update values
 	delete this.upper.shift();
@@ -173,8 +180,6 @@ World.prototype.fetchValues = function() {
 	delete this.obstacles.shift();
 	this.upper.push(newUpper);
 	this.lower.push(newLower);
-//	this.obstacles.push(newObstacle);
-	
-//	console.log("lower len: "+this.lower.length);
+	this.obstacles.push(newObstacle);
 }
 
