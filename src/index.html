@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Soundcopter</title>
+	<!--<link rel="stylesheet" href="sp://import/css/adam.css">-->
+	<!-- <script type="text/javascript" src="/dist/jquery-1.7.1.min.js"></script> -->
+</head>
+<body>
+	<center>
+	Your score: <div id="points">
+		<br/>
+	</div>
+	<br/>
+
+	<div id="info" class="infocls">
+		<div id="infoinfo">
+			<br/><br/>
+			<h1>Welcome to Soundcopter!</h1><br/>
+			<p>In the game you have to accelerate the heli to prevent it from crashing resulting in the pilots immediate death.</p><br/><br/><br/>
+			<p>To start playing <font style="color:#444444">press any keyboard key</font>.</p>
+		</div>
+	</div>
+	
+	<div id="crashinfo" class="infocls hide">
+		<div id="infoinfo">
+			<br/><br/>
+			<h1>GAME OVER!</h1><br/>
+			<p>It seems that you failed miserably and crashed in a ocean of fire, very unfortunate, however you managed to get</p>
+			<br/>
+			<h1><p id="finalscore"></p></h1>
+			<br/>
+			<p id="prevscore"></p>
+			<br/>
+			<p>To play again, <font style="color:#444444">press any keyboard key</font>.</p>
+			<p>
+		</div>
+	</div>
+
+	<canvas id="canvas" width="1000px" height="500px"></canvas>
+	<br/>
+	<br/>
+	</center>
+</body>
+</html>

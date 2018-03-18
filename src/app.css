@@ -1,0 +1,27 @@
+body {
+	background-image:url("gfx/texture.jpg");
+	overflow: hidden;
+}
+.infocls {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -200px;
+	margin-top: -130px;
+	width:400px;
+	height:260px;
+	background: #ffffff;
+	-webkit-border-radius: 10px;
+}
+.hide {
+	display: none;
+}
+#infoinfo {
+	padding: 10px;
+}
+canvas {
+	background: #373737;
+}
+h1 {
+	color: black;
+}
